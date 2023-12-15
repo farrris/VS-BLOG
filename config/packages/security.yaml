@@ -14,6 +14,7 @@ security:
             pattern:   ^/
             stateless: true
             provider: app_user_provider
+            user_checker: App\Security\UserChecker
             jwt: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -30,9 +31,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+         - { path: ^/admin/*, roles: "ROLE_ADMIN" }
          - { path: ^/auth/*, roles: PUBLIC_ACCESS }
-         - { path: ^/users/*, roles: "ROLE_ADMIN" }
-         - { path: ^/roles/*, roles: ROLE_ADMIN}
          - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

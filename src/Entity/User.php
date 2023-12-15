@@ -77,7 +77,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function isBanned(): ?bool
+    public function getBanned(): ?bool
     {
         return $this->banned;
     }

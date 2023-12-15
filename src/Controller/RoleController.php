@@ -10,6 +10,8 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route("/roles")]
+
 class RoleController extends AbstractController
 {
     public function __construct(private RoleService $roleService)
@@ -17,7 +19,7 @@ class RoleController extends AbstractController
         
     }
 
-    #[Route("/roles", name: "createRole", methods: ["POST"])]
+    #[Route("/", name: "createRole", methods: ["POST"])]
     public function createRole(#[MapRequestPayload] CreateRoleDTO $roleDto): JsonResponse
     {
         return $this->json(
@@ -25,7 +27,7 @@ class RoleController extends AbstractController
         );
     }
 
-    #[Route("/roles/{value}", name: "getRoleByValue", methods: ["GET"])]
+    #[Route("/{value}", name: "getRoleByValue", methods: ["GET"])]
     public function getRoleByValue(string $value)
     {
         return $this->json(
