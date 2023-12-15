@@ -8,26 +8,27 @@ use App\Repository\UserRepository;
 
 class UserService {
 
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository,
+                                private RoleService $roleService)
     {
         
     }
 
     public function createUser(CreateUserDTO $dto): User {
         
+        $role = $this->roleService->getRoleByValue(value: "user");
+
         $user = new User();
         $user->setEmail($dto->email);
         $user->setPassword($dto->password);
 
-        $user = $this->userRepository->create($user);
+        $user->addRole($role);
 
-        return $user;
+        return $this->userRepository->create($user);
     }
 
     public function getAllUsers(): array {
-        $users = $this->userRepository->findAll();
-
-        return $users;
+        return $this->userRepository->findAll();
     }
 
 }

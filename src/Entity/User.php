@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -25,6 +29,15 @@ class User
 
     #[ORM\Column(name: 'banReason', type: 'string', length: 255, nullable: true)]
     private ?string $banReason = null;
+
+    #[ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    #[JoinTable(name: 'users_roles')]
+    private Collection $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,6 +95,18 @@ class User
     public function setBanReason(?string $banReason): static
     {
         $this->banReason = $banReason;
+
+        return $this;
+    }
+
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): static
+    {
+        $this->roles[] = $role;
 
         return $this;
     }
