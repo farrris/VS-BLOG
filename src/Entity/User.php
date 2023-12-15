@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
+use App\Mapper\UserMapper;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -99,15 +101,22 @@ class User
         return $this;
     }
 
-    public function getRoles(): Collection
-    {
-        return $this->roles;
+    public function getRoles(): array
+    {   
+        return UserMapper::mapArrayCollectionRolesToArray($this->roles); // Добавлен маппер, потому что toArray() не выводил значения при создании jwt токена
     }
 
-    public function addRole(Role $role): static
+    public function setRoles(Role $role): static
     {
         $this->roles[] = $role;
 
         return $this;
     }
+    
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void {}
 }
