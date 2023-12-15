@@ -6,14 +6,10 @@ use Doctrine\Common\Collections\Collection;
 
 class UserMapper
 {
-    public static function mapArrayCollectionRolesToArray(Collection $arrayCollectionRoles): array
+    public static function mapArrayCollectionRolesToArrayValues(Collection $arrayCollectionRoles): array
     {
         $arrayRoles = $arrayCollectionRoles->map(function($role) {
-            return [
-                "id" => $role->getId(),
-                "value" => $role->getValue(),
-                "description" => $role->getDescription()
-            ];
+            return $role->getValue();
         });
 
         return $arrayRoles->toArray();

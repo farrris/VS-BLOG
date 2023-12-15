@@ -21,7 +21,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function create(User $entity): User
+    public function findByEmail(string $email)
+    {
+        return $this->findOneBy(["email" => $email]);
+    }
+
+    public function findById(int $id)
+    {
+        return $this->findOneBy(["id" => $id]);
+    }
+
+    public function save(User $entity): User
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();

@@ -32,7 +32,7 @@ class AuthService
     private function generateToken(User $user)
     {   
         return [ 
-            "token" => $this->JWTManager->createFromPayload(user: $user, payload: ["id" => $user->getId()])
+            "token" => $this->JWTManager->create(user: $user) //, payload: ["id" => $user->getId()])
         ];
     }
 

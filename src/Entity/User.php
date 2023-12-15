@@ -103,7 +103,7 @@ class User implements UserInterface
 
     public function getRoles(): array
     {   
-        return UserMapper::mapArrayCollectionRolesToArray($this->roles); // Добавлен маппер, потому что toArray() не выводил значения при создании jwt токена
+        return UserMapper::mapArrayCollectionRolesToArrayValues($this->roles);
     }
 
     public function setRoles(Role $role): static
